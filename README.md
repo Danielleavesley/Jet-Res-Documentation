@@ -1,16 +1,16 @@
 # Jet-Res-Documentation
 A summary of my time working at jet res. This includes a walkthrough through of the challenges I faced and solutions I achieved when working on both the mechanical and software development. Note this will not include code or a link to the repository due to the code falling under the companies IP
 
-## About Jet Res
+### About Jet Res
 Jet Res is a small electonics manufacture manily focusing on low voulme surface mount pcb assembly. All of desginging, building ,testing and devlopning is all done in-house for both the harware and software requided to create a Picking and Placing machine for PBCs
 
 
 # Software Development (Summer 0f 2025)
 My role at jet res durning this time was to develope software that would take in images/video and output the location of a desiered object. This include both tracking and detection of very small compontes all the way up to larger components along with other common task need for Picking and placing. I developed multiple pipline for diffrent tasks that all employed both AI and analytical computer vision, this was then deplyed on to a cloud serevr for the pick and place machine to cal lthe pipeline as it wishes.
 
-# compontents and ai vision
+## compontents and ai vision
 
-## Ai vision 
+### Ai vision 
 previouily for the use of ai in computer vision i tryed to use roboflow witch is an assortment of tools, models and software to alow for the creation of data , finetuning models and deploying models. Roboflow ended up beening very informative but ultimaily the wrong choice for this project due to conscerns with licence and the cost of useing the software, witch most of the funtunality wouldn't be used at this stage. 
 After some reachserch I setteled on using the S.A.M 2 model from meta. It had incredible flexiabilty ,the abilty to track objects that are occluded and had an apache 2.0 license witch allows for free commercial distubution. I then buit up a easy to use class that alowed for simple instuctions to pass to said class and it handles all the data and formating S.A.M 2 requires and then return easily understood outputs.
 
