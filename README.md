@@ -31,7 +31,10 @@ IMAGE OF LARGE COMPONET MASK WITH THE LEGS AND WIRH OUT THE LEGS ANLONG WITH THE
 ### TINY COMPOENTS
 For tiny compnent there was two main problems that need to be solved, the mask couldn't seprate the componet from the nozzle and I requiried one pixel where the componet is guaranteed to be present. The mask not separating the component was a major promblem, at first no matter how I promted S.A.M 2 sepration wouldnt occur. I resulted to using frame manupuilation istead, this is the process of taking raw shots from the camerea and then splcing frames in certian orders. using frame manupuilation along with cleaver promting the sepration was aachieved and work incredabily well. now in order to get the sepration I need one pixel that contains the component, this was a hard task as the compontent is so small we couldnt ganuratee that we could consistanly moved the nozzle into the frame with the uncearity required to reliable guarantee a pixel. so I reverted to using the mask that didnt seprate components from the nozzle as in order to pick the components the component must be covering the open section of the nozzel. This alowwed me to caculate the center of the nozzle from that first no seprating mask, this now gaurenterd a point where the componet must be present or it wouldnt be picked up. This took us from needing to place the nozzle in the frame with an uncearity based on the size of the component to the size of the nozzle making the process more relaible and possiable.
 
-IMAGE OF TINY COMPONENTT ON THE NOZZLE WITH NO ANOTATIONS AND ALL ANOTATIONS
+![00001](https://github.com/user-attachments/assets/a1d66383-718c-40d7-9388-13273eeedb8f)
+
+<img width="1114" height="628" alt="sam2+pipeline output" src="https://github.com/user-attachments/assets/84fa5fd9-90ab-41f8-881e-3f1228edf7b5" />
+
 
 # Sprockets ,Pads and Fussials
 
