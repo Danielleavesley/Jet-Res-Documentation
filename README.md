@@ -26,15 +26,15 @@ Once componets have been picked up we then need to reculated where the componet 
 Large compents seemed to be an easier task to solve than others so a great starting point to test the S.A.M 2 model directy in an aplication it will be used for. From the imagage below you can see that the componet takes up most of the screen and only a small section of the nozzel mount is visble.
 
 ![00001](https://github.com/user-attachments/assets/7c07e08d-a2ff-4498-ba45-46670253dc0b)
+**Figure 1: The itnail image of a Larger component**
 
 We wanted to produce a mask of the object witch then will be used to find both the center and orintation of objectS with diffrent shapes. As you can see below the legs are ussaly picked up by the mask but with claerer prmoting we can attaully decied for each component wether or not to to include the legs as seen below. Including the legs in the mask can cause all sort of issuses , For example if a component has uneven legs the mask and therefor the center of the component will be shifted and biased towards the side with more legs.
 
-**legs are not grabed and the mask is perfect for finding the center of the component**
 <img width="558" height="234" alt="Large component_ mask" src="https://github.com/user-attachments/assets/6d1c96a3-8960-4c0a-916a-e68be8b9f7c1" />
+**Figure 2: The large componete where the leggs of said component is excluded**
 
-
-**legs are included and this casue problems with the background beening detected as the component**
 <img width="640" height="233" alt="Large component_ mask legs included" src="https://github.com/user-attachments/assets/7573c911-75bc-4e3d-8c94-e4897a799505" />
+**Figure 3: The large component with more basic promting cauing the legs to be included**
 
 
 
@@ -43,14 +43,13 @@ We wanted to produce a mask of the object witch then will be used to find both t
 
 For tiny compnent there was two main problems that need to be solved, the mask couldn't seprate the componet from the nozzle and I requiried one pixel where the componet is guaranteed to be present. The mask not separating the component was a major promblem, at first no matter how I promted S.A.M 2 sepration wouldnt occur. I resulted to using frame manupuilation istead, this is the process of taking raw shots from the camerea and then splcing frames in certian orders. using frame manupuilation along with cleaver promting the sepration was aachieved and work incredabily well. now in order to get the sepration I need one pixel that contains the component, this was a hard task as the compontent is so small we couldnt ganuratee that we could consistanly moved the nozzle into the frame with the uncearity required to reliable guarantee a pixel.
 
-### Intail starting image showing the size of the component
 ![00001](https://github.com/user-attachments/assets/a1d66383-718c-40d7-9388-13273eeedb8f)
+**Figure 4: Intial image of a tiny component**
 
 So I reverted to using the mask that didnt seprate components from the nozzle as in order to pick the components the component must be covering the open section of the nozzel. This alowwed me to caculate the center of the nozzle from that first no seprating mask, this now gaurenterd a point where the componet must be present or it wouldnt be picked up. This took us from needing to place the nozzle in the frame with an uncearity based on the size of the component to the size of the nozzle making the process more relaible and possiable.
 
-### Image with mask and bounding box annotated
 <img width="930" height="384" alt="sam2+pipeline output" src="https://github.com/user-attachments/assets/f75e65e3-e04f-4c45-9f5e-791132fd3527" />
-
+**Figure 5: The tiny component with the mask and bounding box anottated**
 
 
 # Sprockets ,Pads and Fussials
@@ -58,34 +57,36 @@ So I reverted to using the mask that didnt seprate components from the nozzle as
 ## Sprocekts
 In order to pick up componets we need to know where they lie in relation to the PCB part of this is sprocket dection. As seen below there are components in a evenly spaced order along with a row of holes (the sprockets) also even spaced this is called a strip. The sprockets and componets have a knowen relation to each other so by knowing the sprockets you therefor know the posstion of the componets or vice versa. This is just as crucial as component orination and location dection seen above but this has to be tackled a diffrent way. First I had to rotate a larger image that contains either one or many strips to allow for missaliment in the strip placement. Then this is followed by cropping each indivial strip into its' own image to stop sprockets form other strips or the backgroud interfering.
 
-**Shows that with rotation the sprockets are now more parrel to the bottom**
 <img width="1110" height="280" alt="Rotated Image verus Orignale" src="https://github.com/user-attachments/assets/a85ecf99-ba1a-4ee0-bf69-a19f1b3c9f18" />
+**Figure 6: Shows how rotation is used to make the sprockets more parrel with the bottom**
 
 
 
 From the cropped images I then use alogthim baseed computer vision to dector the sprockets, this sprocket detection worked really well but had a problem with lighting inconsistancy cuasing shadows in some sprockets causing incorrect centers to be found thus offseting the sprocket. Howerer due to shadows causing the issues this ment the alogthim based centers even though incorrect are always going to be within the sprockets, So therefor we have a knowen postion inside each sprocket (simailer to the tiny componet above).These incorrect sprockets are fine for larger componets as they will still be picked and can be correct by the above pipeline but for tiny componets they would not even get picked up with these sprockets. 
 
-### Shows the geusee based on the alogrithm, some holes work well some are very missallined
 <img width="1102" height="558" alt="Sprockets on image from algorithms" src="https://github.com/user-attachments/assets/c84ed159-37f5-499a-97f6-f601cd1f2288" />
+**Figure 7: Shows the detection of sprockets based on the alogrithm, some sprockets work well some are very missallined**
 
 
 
 I then decied to test and implemed S.A.M 2 into the sprocket dection to refine the sprockets. By using the alogthim based centers as inputs into the S.A.M 2 model this resulted in shadows been ignored and more accurate srpockets beening found. Once i Have the points in the cropped roated image i then have to covert these points back into the uncropped and unroated image using matrix multiplication,subtracting and addition.
-
 **Below is S.A.M 2 refining the sprockets, the top image is the larger uncropped un roated image with the sprockets overlayed on top, the bottom image is the mask that S.A.M 2 procdeuce for each sprocket**
-<img width="554" height="279" alt="Sprockets on image from AI" src="https://github.com/user-attachments/assets/be6e4e2f-d9a1-4ace-990e-68b502864d99" />
 
+<img width="554" height="279" alt="Sprockets on image from AI" src="https://github.com/user-attachments/assets/be6e4e2f-d9a1-4ace-990e-68b502864d99" />
+**Figure 8: S.A.M 2 refinment of the sprockets in the Uncropped unroated image, much cleaner than in Figure 7**
 <img width="1000" height="324" alt="single strip sprocket masks" src="https://github.com/user-attachments/assets/4bd5b92f-1605-4066-bb2b-49a30d5cd178" />
+**Figure 9: The roated and cropped strip with the S.A.M 2 refnined sprockets**
 
 
 
 
 ## Pads and Fudicals (tracking)
 
-Pads are points on a PCB where componets will need be palced. Fudicalsvery dictancte marks on a pcb witch postion is knowen relative to the rest of the baord. Both of these fall into the same catagoary as they use the same pipeline due them both needing thier centers to be tracked. This was really easy to implenet as by now the S.A.M 2 class I created had alot of functionality. so all I had to do was take in imputs about what and how many objects wanted to be tracked. as seen below the points repsent the center of the mask and these point could be track even with fast movements and the object leaving the frame dure to S.A.M 2 occluation capabilties.
+Pads are points on a PCB where componets will need be palced. Fudicalsvery dictancte marks on a pcb witch postion is knowen relative to the rest of the baord. Both of these fall into the same catagoary as they use the same pipeline due them both needing thier centers to be tracked. This was really easy to implenet as by now the S.A.M 2 class I created had alot of functionality. so all I had to do was take in imputs about what and how many objects wanted to be tracked. as seen below the points repsent the center of the mask and these point could be track even with fast movements and the object leaving the frame dure to S.A.M 2 occluation capabilties. 
 
-Notice that the points attually dont seem to be centered even through the masks capture the pads perfectly. This is due to how the points are drawn on to the image, this dos not effect the postion of center in any way only makes the visulation of said points look slight off.
 <img width="963" height="298" alt="Pads" src="https://github.com/user-attachments/assets/9e534307-1ccc-4e02-a290-83b08995f498" />
+**Figure 10: Shows masks and center points of multiple pads durning tracking**
+Notice that in figure 10 the points attually do not seem to be centered even through the masks capture the pads perfectly. This is due to how the points are drawn on to the image, this dos not effect the postion of center in anyway only makes the visulation of said points look slight off.
 
 
 
