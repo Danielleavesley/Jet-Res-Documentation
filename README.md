@@ -29,11 +29,11 @@ Large compents seemed to be an easier task to solve than others so a great start
 
 We wanted to produce a mask of the object witch then will be used to find both the center and orintation of objectS with diffrent shapes. As you can see below the legs are ussaly picked up by the mask but with claerer prmoting we can attaully decied for each component wether or not to to include the legs as seen below. Including the legs in the mask can cause all sort of issuses , For example if a component has uneven legs the mask and therefor the center of the component will be shifted and biased towards the side with more legs.
 
-### legs are not grabed and the mask is perfect for finding the center of the component
+**legs are not grabed and the mask is perfect for finding the center of the component**
 <img width="558" height="234" alt="Large component_ mask" src="https://github.com/user-attachments/assets/6d1c96a3-8960-4c0a-916a-e68be8b9f7c1" />
 
 
-### legs are included and this casue problems with the background beening detected as the component
+**legs are included and this casue problems with the background beening detected as the component**
 <img width="640" height="233" alt="Large component_ mask legs included" src="https://github.com/user-attachments/assets/7573c911-75bc-4e3d-8c94-e4897a799505" />
 
 
@@ -46,7 +46,7 @@ For tiny compnent there was two main problems that need to be solved, the mask c
 ### Intail starting image showing the size of the component
 ![00001](https://github.com/user-attachments/assets/a1d66383-718c-40d7-9388-13273eeedb8f)
 
-so I reverted to using the mask that didnt seprate components from the nozzle as in order to pick the components the component must be covering the open section of the nozzel. This alowwed me to caculate the center of the nozzle from that first no seprating mask, this now gaurenterd a point where the componet must be present or it wouldnt be picked up. This took us from needing to place the nozzle in the frame with an uncearity based on the size of the component to the size of the nozzle making the process more relaible and possiable.
+So I reverted to using the mask that didnt seprate components from the nozzle as in order to pick the components the component must be covering the open section of the nozzel. This alowwed me to caculate the center of the nozzle from that first no seprating mask, this now gaurenterd a point where the componet must be present or it wouldnt be picked up. This took us from needing to place the nozzle in the frame with an uncearity based on the size of the component to the size of the nozzle making the process more relaible and possiable.
 
 ### Image with mask and bounding box annotated
 <img width="930" height="384" alt="sam2+pipeline output" src="https://github.com/user-attachments/assets/f75e65e3-e04f-4c45-9f5e-791132fd3527" />
@@ -56,9 +56,9 @@ so I reverted to using the mask that didnt seprate components from the nozzle as
 # Sprockets ,Pads and Fussials
 
 ## Sprocekts
-in order to pick up componets we need to know where they lie in relation to the PCB part of this is sprocket dection. As seen below there are components in a evenly spaced order along with a row of holes (the sprockets) also even spaced this is called a strip. The sprockets and componets have a knowen relation to each other so by knowing the sprockets you therefor know the posstion of the componets or vice versa. This is just as crucial as component orination and location dection seen above but this has to be tackled a diffrent way. First I had to rotate a larger image that contains either one or many strips to allow for missaliment in the strip placement. Then this is followed by cropping each indivial strip into its' own image to stop sprockets form other strips or the backgroud interfering.
+In order to pick up componets we need to know where they lie in relation to the PCB part of this is sprocket dection. As seen below there are components in a evenly spaced order along with a row of holes (the sprockets) also even spaced this is called a strip. The sprockets and componets have a knowen relation to each other so by knowing the sprockets you therefor know the posstion of the componets or vice versa. This is just as crucial as component orination and location dection seen above but this has to be tackled a diffrent way. First I had to rotate a larger image that contains either one or many strips to allow for missaliment in the strip placement. Then this is followed by cropping each indivial strip into its' own image to stop sprockets form other strips or the backgroud interfering.
 
-### Shows that with rotation the sprockets are now more parrel to the bottom
+**Shows that with rotation the sprockets are now more parrel to the bottom**
 <img width="1110" height="280" alt="Rotated Image verus Orignale" src="https://github.com/user-attachments/assets/a85ecf99-ba1a-4ee0-bf69-a19f1b3c9f18" />
 
 
@@ -72,7 +72,7 @@ From the cropped images I then use alogthim baseed computer vision to dector the
 
 I then decied to test and implemed S.A.M 2 into the sprocket dection to refine the sprockets. By using the alogthim based centers as inputs into the S.A.M 2 model this resulted in shadows been ignored and more accurate srpockets beening found. Once i Have the points in the cropped roated image i then have to covert these points back into the uncropped and unroated image using matrix multiplication,subtracting and addition.
 
-### Below is S.A.M 2 refining the sprockets, the top image is the larger uncropped un roated image with the sprockets overlayed on top, the bottom image is the mask that S.A.M 2 procdeuce for each sprocket.
+**Below is S.A.M 2 refining the sprockets, the top image is the larger uncropped un roated image with the sprockets overlayed on top, the bottom image is the mask that S.A.M 2 procdeuce for each sprocket**
 <img width="554" height="279" alt="Sprockets on image from AI" src="https://github.com/user-attachments/assets/be6e4e2f-d9a1-4ace-990e-68b502864d99" />
 
 <img width="1000" height="324" alt="single strip sprocket masks" src="https://github.com/user-attachments/assets/4bd5b92f-1605-4066-bb2b-49a30d5cd178" />
@@ -91,6 +91,6 @@ Notice that the points attually dont seem to be centered even through the masks 
 
 # Conclution
 
-by sussfully implmenting AI and alogthims I was able to create frameworks and piplines to help orientate, track and locate a set of both ambinoly sand regulary shaped componets,pads and parts. Using both reaserach papers, online threads and AI I was able to get a better undersatnding of S.A.M 2 allwoing me to manupuilate it stregths whilst minimsing it weakness. On top of this, due to my code intergating with a system development by others at the company, I learnt alot about colabrateive coding from pair programing to the vast feature-set of github.
+By sussfully implmenting AI and alogthims I was able to create frameworks and piplines to help orientate, track and locate a set of both ambinoly sand regulary shaped componets,pads and parts. Using both reaserach papers, online threads and AI I was able to get a better undersatnding of S.A.M 2 allwoing me to manupuilate it stregths whilst minimsing it weakness. On top of this, due to my code intergating with a system development by others at the company, I learnt alot about colabrateive coding from pair programing to the vast feature-set of github.
 I Greatly enjoyed my time at Jet Res durnig the summer. everyday had a challange and everyday I learnt something new with the added sence of accomplishment seening my code be intergrate into a work flow.
 
