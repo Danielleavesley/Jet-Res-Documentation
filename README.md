@@ -8,21 +8,21 @@ Jet Res is a small electonics manufacture manily focusing on low voulme surface 
 # Software Development (Summer 0f 2025)
 My role at jet res durning this time was to develope software that would take in images/video and output the location of a desiered object. This include both tracking and detection of very small compontes all the way up to larger components along with other common task need for Picking and placing. I developed multiple pipline for diffrent tasks that all employed both AI and analytical computer vision, this was then deplyed on to a cloud serevr for the pick and place machine to cal lthe pipeline as it wishes.
 
-## compontents and ai vision
+## Compontents and AI Vision
 
-### Ai vision 
+### AI Vision 
 previouily for the use of ai in computer vision i tryed to use roboflow witch is an assortment of tools, models and software to alow for the creation of data , finetuning models and deploying models. Roboflow ended up beening very informative but ultimaily the wrong choice for this project due to conscerns with licence and the cost of useing the software, witch most of the funtunality wouldn't be used at this stage. 
 After some reachserch I setteled on using the S.A.M 2 model from meta. It had incredible flexiabilty ,the abilty to track objects that are occluded and had an apache 2.0 license witch allows for free commercial distubution. I then buit up a easy to use class that alowed for simple instuctions to pass to said class and it handles all the data and formating S.A.M 2 requires and then return easily understood outputs.
 
-## Detection of componets and thier orintation
+## Detection of Components
 Once componets have been picked up we then need to reculated where the componet is and it orination in order to compensatte for any unespetate movment in the picking process. this requiered many diffrent pipelines deppeding on this size of the Nozzle used witch in turn dependis on the size of the componet, I developed two of these piplines but due to having three nozzels a thrid will also need to be developed.
 
-### Large componets
-Large compents seemed to be an easier task to solve than others so a great starting point to test the S.A.M 2 model directy in an aplication it will be used for. From the imagage below you can see that the componet takes up most of the screen and only a small section of the nozzel mount is visble
+### Large Components
+Large compents seemed to be an easier task to solve than others so a great starting point to test the S.A.M 2 model directy in an aplication it will be used for. From the imagage below you can see that the componet takes up most of the screen and only a small section of the nozzel mount is visble.
 
 ![00001](https://github.com/user-attachments/assets/7c07e08d-a2ff-4498-ba45-46670253dc0b)
 
-we wanted to produce a mask of the object witch then will be used to find both the center and orintation of objectS with diffrent shapes. As you can see below the legs are ussaly picked up by the mask but with claerer prmoting we can attaully decied for each component wether or not to to include the legs as seen below. Including the legs in the mask can cause all sort of issuses , For example if a component has uneven legs the mask and therefor the center of the component will be shifted and biased towards the side with more legs.
+We wanted to produce a mask of the object witch then will be used to find both the center and orintation of objectS with diffrent shapes. As you can see below the legs are ussaly picked up by the mask but with claerer prmoting we can attaully decied for each component wether or not to to include the legs as seen below. Including the legs in the mask can cause all sort of issuses , For example if a component has uneven legs the mask and therefor the center of the component will be shifted and biased towards the side with more legs.
 
 legs arnt't grabed and the mask is perfect for finding the center of the component
 <img width="640" height="480" alt="Large component_ mask" src="https://github.com/user-attachments/assets/d215e854-fbca-45d6-b519-71b7d3688a99" />
@@ -32,7 +32,7 @@ legs are included and this casue problems with the background beening detected a
 
 
 
-### TINY COMPOENTS
+### TINY COMPONENTS
 For tiny compnent there was two main problems that need to be solved, the mask couldn't seprate the componet from the nozzle and I requiried one pixel where the componet is guaranteed to be present. The mask not separating the component was a major promblem, at first no matter how I promted S.A.M 2 sepration wouldnt occur. I resulted to using frame manupuilation istead, this is the process of taking raw shots from the camerea and then splcing frames in certian orders. using frame manupuilation along with cleaver promting the sepration was aachieved and work incredabily well. now in order to get the sepration I need one pixel that contains the component, this was a hard task as the compontent is so small we couldnt ganuratee that we could consistanly moved the nozzle into the frame with the uncearity required to reliable guarantee a pixel. so I reverted to using the mask that didnt seprate components from the nozzle as in order to pick the components the component must be covering the open section of the nozzel. This alowwed me to caculate the center of the nozzle from that first no seprating mask, this now gaurenterd a point where the componet must be present or it wouldnt be picked up. This took us from needing to place the nozzle in the frame with an uncearity based on the size of the component to the size of the nozzle making the process more relaible and possiable.
 
 
