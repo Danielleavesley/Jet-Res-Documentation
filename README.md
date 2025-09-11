@@ -1,23 +1,28 @@
 # Jet-Res-Documentation
+
 A summary of my time working at jet res. This includes a walkthrough through of the challenges I faced and solutions I achieved when working on both the mechanical and software development. Note this will not include code or a link to the repository due to the code falling under the companies IP
 
 ### About Jet Res
+
 Jet Res is a small electonics manufacture manily focusing on low voulme surface mount pcb assembly. All of desginging, building ,testing and devlopning is all done in-house for both the harware and software requided to create a Picking and Placing machine for PBCs
 
 
 # Software Development (Summer 0f 2025)
+
 My role at jet res durning this time was to develope software that would take in images/video and output the location of a desiered object. This include both tracking and detection of very small compontes all the way up to larger components along with other common task need for Picking and placing. I developed multiple pipline for diffrent tasks that all employed both AI and analytical computer vision, this was then deplyed on to a cloud serevr for the pick and place machine to cal lthe pipeline as it wishes.
 
 ## Compontents and AI Vision
-
 ### AI Vision 
+
 previouily for the use of ai in computer vision i tryed to use roboflow witch is an assortment of tools, models and software to alow for the creation of data , finetuning models and deploying models. Roboflow ended up beening very informative but ultimaily the wrong choice for this project due to conscerns with licence and the cost of useing the software, witch most of the funtunality wouldn't be used at this stage. 
 After some reachserch I setteled on using the S.A.M 2 model from meta. It had incredible flexiabilty ,the abilty to track objects that are occluded and had an apache 2.0 license witch allows for free commercial distubution. I then buit up a easy to use class that alowed for simple instuctions to pass to said class and it handles all the data and formating S.A.M 2 requires and then return easily understood outputs.
 
 ## Detection of Components
+
 Once componets have been picked up we then need to reculated where the componet is and it orination in order to compensatte for any unespetate movment in the picking process. this requiered many diffrent pipelines deppeding on this size of the Nozzle used witch in turn dependis on the size of the componet, I developed two of these piplines but due to having three nozzels a thrid will also need to be developed.
 
 ### Large Components
+
 Large compents seemed to be an easier task to solve than others so a great starting point to test the S.A.M 2 model directy in an aplication it will be used for. From the imagage below you can see that the componet takes up most of the screen and only a small section of the nozzel mount is visble.
 
 ![00001](https://github.com/user-attachments/assets/7c07e08d-a2ff-4498-ba45-46670253dc0b)
@@ -32,7 +37,8 @@ legs are included and this casue problems with the background beening detected a
 
 
 
-### TINY COMPONENTS
+### Tiny Components
+
 For tiny compnent there was two main problems that need to be solved, the mask couldn't seprate the componet from the nozzle and I requiried one pixel where the componet is guaranteed to be present. The mask not separating the component was a major promblem, at first no matter how I promted S.A.M 2 sepration wouldnt occur. I resulted to using frame manupuilation istead, this is the process of taking raw shots from the camerea and then splcing frames in certian orders. using frame manupuilation along with cleaver promting the sepration was aachieved and work incredabily well. now in order to get the sepration I need one pixel that contains the component, this was a hard task as the compontent is so small we couldnt ganuratee that we could consistanly moved the nozzle into the frame with the uncearity required to reliable guarantee a pixel. so I reverted to using the mask that didnt seprate components from the nozzle as in order to pick the components the component must be covering the open section of the nozzel. This alowwed me to caculate the center of the nozzle from that first no seprating mask, this now gaurenterd a point where the componet must be present or it wouldnt be picked up. This took us from needing to place the nozzle in the frame with an uncearity based on the size of the component to the size of the nozzle making the process more relaible and possiable.
 
 
