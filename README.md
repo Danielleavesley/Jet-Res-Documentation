@@ -14,7 +14,7 @@ My role at jet res durning this time was to develope software that would take in
 ## Compontents and AI Vision
 ### AI Vision 
 
-previouily for the use of ai in computer vision i tryed to use roboflow witch is an assortment of tools, models and software to alow for the creation of data , finetuning models and deploying models. Roboflow ended up beening very informative but ultimaily the wrong choice for this project due to conscerns with licence and the cost of useing the software, witch most of the funtunality wouldn't be used at this stage. 
+Previouily for the use of AI in computer vision i tryed to use roboflow witch is an assortment of tools, models and software to alow for the creation of data , finetuning models and deploying models. Roboflow ended up beening very informative but ultimaily the wrong choice for this project due to conscerns with licence and the cost of useing the software, witch most of the funtunality wouldn't be used at this stage. 
 After some reachserch I setteled on using the S.A.M 2 model from meta. It had incredible flexiabilty ,the abilty to track objects that are occluded and had an apache 2.0 license witch allows for free commercial distubution. I then buit up a easy to use class that alowed for simple instuctions to pass to said class and it handles all the data and formating S.A.M 2 requires and then return easily understood outputs.
 
 ## Detection of Components
